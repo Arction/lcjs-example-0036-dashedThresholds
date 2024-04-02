@@ -8,7 +8,7 @@ const { lightningChart, Themes, AxisTickStrategies, DashedLine, SolidFill, Stipp
 
 const chart = lightningChart()
     .ChartXY({
-        theme: Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined
+        theme: Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined,
     })
     .setTitle('Machine temperatures')
 
