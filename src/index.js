@@ -28,8 +28,12 @@ const axisY = chart
     .setTickStrategy(AxisTickStrategies.Numeric, (ticks) => ticks.setCursorFormatter((celsius) => `${celsius.toFixed(1)} °C`))
 
 Promise.all([
-    fetch(document.head.baseURI + 'examples/assets/0036/temperature.json').then((r) => r.json()),
-    fetch(document.head.baseURI + 'examples/assets/0036/temperature2.json').then((r) => r.json()),
+    fetch(new URL(document.head.baseURI).origin + new URL(document.head.baseURI).pathname + 'examples/assets/0036/temperature.json').then(
+        (r) => r.json(),
+    ),
+    fetch(new URL(document.head.baseURI).origin + new URL(document.head.baseURI).pathname + 'examples/assets/0036/temperature2.json').then(
+        (r) => r.json(),
+    ),
 ]).then(([temperatureData, temperatureData2]) => {
     const seriesMachine1 = chart
         .addLineSeries({ dataPattern: { pattern: 'ProgressiveX' } })
