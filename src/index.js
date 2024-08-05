@@ -2,7 +2,7 @@
  * Example showcasing use of `DashedLine` style in a _threshold_ indicator.
  */
 
-const lcjs = require('@arction/lcjs')
+const lcjs = require('@lightningchart/lcjs')
 
 const { lightningChart, Themes, AxisTickStrategies, DashedLine, SolidFill, StipplePatterns } = lcjs
 
@@ -25,9 +25,8 @@ if (!exampleThemeProperties) {
 const axisX = chart.getDefaultAxisX().setTickStrategy(AxisTickStrategies.Time)
 const axisY = chart
     .getDefaultAxisY()
-    .setTitle('Temperature °C')
-    // Configure Y value cursor formatting as celsius with 1 decimal precision.
-    .setTickStrategy(AxisTickStrategies.Numeric, (ticks) => ticks.setCursorFormatter((celsius) => `${celsius.toFixed(1)} °C`))
+    .setTitle('Temperature')
+    .setUnits('°C')
 
 Promise.all([
     fetch(new URL(document.head.baseURI).origin + new URL(document.head.baseURI).pathname + 'examples/assets/0036/temperature.json').then(
