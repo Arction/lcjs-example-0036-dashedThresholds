@@ -4,7 +4,7 @@
 
 const lcjs = require('@lightningchart/lcjs')
 
-const { lightningChart, Themes, AxisTickStrategies, DashedLine, SolidFill, StipplePatterns } = lcjs
+const { lightningChart, Themes, emptyFill, AxisTickStrategies, DashedLine, SolidFill, StipplePatterns } = lcjs
 
 const chart = lightningChart({
             resourcesBaseUrl: new URL(document.head.baseURI).origin + new URL(document.head.baseURI).pathname + 'resources/',
@@ -23,10 +23,7 @@ if (!exampleThemeProperties) {
 
 // Configure X Axis as Time
 const axisX = chart.getDefaultAxisX().setTickStrategy(AxisTickStrategies.Time)
-const axisY = chart
-    .getDefaultAxisY()
-    .setTitle('Temperature')
-    .setUnits('°C')
+const axisY = chart.getDefaultAxisY().setTitle('Temperature').setUnits('°C')
 
 Promise.all([
     fetch(new URL(document.head.baseURI).origin + new URL(document.head.baseURI).pathname + 'examples/assets/0036/temperature.json').then(
@@ -37,14 +34,16 @@ Promise.all([
     ),
 ]).then(([temperatureData, temperatureData2]) => {
     const seriesMachine1 = chart
-        .addLineSeries({ dataPattern: { pattern: 'ProgressiveX' } })
+        .addPointLineAreaSeries({ dataPattern: 'ProgressiveX' })
         .setName('Machine 1 temperature')
-        .add(temperatureData)
+        .appendJSON(temperatureData)
+        .setAreaFillStyle(emptyFill)
 
     const seriesMachine2 = chart
-        .addLineSeries({ dataPattern: { pattern: 'ProgressiveX' } })
+        .addPointLineAreaSeries({ dataPattern: 'ProgressiveX' })
         .setName('Machine 2 temperature')
-        .add(temperatureData2)
+        .appendJSON(temperatureData2)
+        .setAreaFillStyle(emptyFill)
 
     const thresholdLine = axisY
         .addConstantLine(true)
@@ -58,7 +57,7 @@ Promise.all([
             }),
         )
         // Prevent users from moving constant line with mouse interactions.
-        .setMouseInteractions(false)
+        .setPointerEvents(false)
 
     // Configure both Axis intervals manually to add some extra space around line series
     axisX.setInterval({
